@@ -4,6 +4,8 @@ import getCharacter from './services/getCharacter'
 import Button from './Button'
 import Result from './Result'
 import Title from './assets/title.png'
+import SubTitle from './assets/subtitle(green).png'
+import styled from 'styled-components/macro'
 
 function App() {
   const [character, setCharacter] = useState('')
@@ -26,28 +28,73 @@ function App() {
 
   console.log(character)
   return (
-    <div className="App">
+    <AppStyled className="App">
       <header>
-        <img src={Title} alt="" />
+        <h1>
+          <img className="title" src={Title} alt="Rick and Morty" />
+        </h1>
+        <h2>
+          <img className="subtitle" src={SubTitle} alt="Dead or Alive" />
+        </h2>
       </header>
-      <h1>Dead and Alive | Quiz</h1>
-      <Character
-        key={character.id}
-        name={character.name}
-        imgUrl={character.image}
-        deadOrAlive={character.status}
-      />
-      <Button onClick={() => setUserAnswer(true)}>Dead</Button>
-      <span>or</span>
-      <Button onClick={() => setUserAnswer(true)}>Alive</Button>
-      {userAnswer && (
-        <>
-          <Result name={character.name} status={character.status}></Result>
-          <Button onClick={resetCharacter}>Next</Button>
-        </>
-      )}
-    </div>
+      <main>
+        <Character
+          key={character.id}
+          name={character.name}
+          imgUrl={character.image}
+          deadOrAlive={character.status}
+          hideName={userAnswer}
+        />
+        {!userAnswer && (
+          <>
+            <Button onClick={() => setUserAnswer(true)}>Dead</Button>
+            <span className="m3">or</span>
+            <Button onClick={() => setUserAnswer(true)}>Alive</Button>
+          </>
+        )}
+        {userAnswer && (
+          <>
+            <Result
+              name={character.name}
+              status={character.status}
+              showName={userAnswer}
+            />
+            <Button onClick={resetCharacter}>Next</Button>
+          </>
+        )}
+      </main>
+    </AppStyled>
   )
 }
+
+const AppStyled = styled.div`
+  display: grid;
+  grid-gap: 20px;
+  grid-template-rows: 25% 75%;
+  height: 100vh;
+  overflow: hidden;
+
+  header {
+    background: black;
+    position: relative;
+  }
+  main {
+    padding: 0 20px;
+    overflow-y: scroll;
+  }
+  .title {
+    position: absolute;
+    top: -40px;
+  }
+
+  .subtitle {
+    position: absolute;
+    top: -60px;
+  }
+
+  .m3 {
+    margin: 3%;
+  }
+`
 
 export default App

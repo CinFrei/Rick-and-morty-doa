@@ -1,10 +1,15 @@
+import styled from 'styled-components/macro'
 import React from 'react'
 
-export default function Character({name, imgUrl}) {
+export default function Character({ name, imgUrl, hideName }) {
   return (
-    <section>
-      <h3>{name}</h3>
+    <CharacterStyled>
       <img src={imgUrl} alt="" />
-    </section>
+      {!hideName && <h3>{name}</h3>}
+    </CharacterStyled>
   )
 }
+
+const CharacterStyled = styled.section`
+  text-align: center;
+`

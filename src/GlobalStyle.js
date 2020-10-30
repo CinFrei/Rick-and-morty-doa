@@ -12,4 +12,7 @@ export default createGlobalStyle`
   input, textarea, button {
     font-size: 1em;
   }
+  img{
+    width: 100%;
+  }
 `
