@@ -1,5 +1,3 @@
-import styled from 'styled-components/macro'
-
 export default function Result({ name, status, location }) {
   return (
     <div>

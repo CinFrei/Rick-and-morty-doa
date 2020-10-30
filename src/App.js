@@ -26,7 +26,10 @@ function App() {
     getRandomCharacter()
   }
 
-  console.log(character)
+  function showUserAnswer() {
+    return userAnswer === character.status ? 'Correct!' : 'Wrong!'
+  }
+
   return (
     <AppStyled className="App">
       <header>
@@ -47,13 +50,14 @@ function App() {
         />
         {!userAnswer && (
           <>
-            <Button onClick={() => setUserAnswer(true)}>Dead</Button>
+            <Button onClick={() => setUserAnswer('Dead')}>Dead</Button>
             <span className="m3">or</span>
-            <Button onClick={() => setUserAnswer(true)}>Alive</Button>
+            <Button onClick={() => setUserAnswer('Alive')}>Alive</Button>
           </>
         )}
         {userAnswer && (
           <>
+            <p>{showUserAnswer()}</p>
             <Result
               name={character.name}
               status={character.status}
@@ -73,9 +77,10 @@ const AppStyled = styled.div`
   grid-template-rows: 25% 75%;
   height: 100vh;
   overflow: hidden;
+  background: #363537;
 
   header {
-    background: black;
+    background: #363537;
     position: relative;
   }
   main {
