@@ -26,8 +26,8 @@ function App() {
     getRandomCharacter()
   }
 
-  function showUserAnswer() {
-    return userAnswer === character.status ? 'Correct!' : 'Wrong!'
+  function isCorrectAnswer() {
+    return userAnswer === character.status ? true : false
   }
 
   return (
@@ -50,20 +50,40 @@ function App() {
         />
         {!userAnswer && (
           <>
-            <Button onClick={() => setUserAnswer('Dead')}>Dead</Button>
+            <Button
+              bgColor="#E70000"
+              glowColor="#E70000"
+              fontColor="#fff"
+              onClick={(event) => setUserAnswer(event.target.textContent)}
+            >
+              Dead
+            </Button>
             <span className="m3">or</span>
-            <Button onClick={() => setUserAnswer('Alive')}>Alive</Button>
+            <Button
+              bgColor="#00ff1e"
+              glowColor="#00ff1e"
+              onClick={(event) => setUserAnswer(event.target.textContent)}
+            >
+              Alive
+            </Button>
           </>
         )}
         {userAnswer && (
           <>
-            <p>{showUserAnswer()}</p>
+            <p>{isCorrectAnswer ? 'Correct!' : 'Wrong!'}</p>
             <Result
               name={character.name}
               status={character.status}
               showName={userAnswer}
             />
-            <Button onClick={resetCharacter}>Next</Button>
+            <Button
+              bgColor="#22a1b5"
+              glowColor="#00ff1e"
+              fontColor="#fff"
+              onClick={resetCharacter}
+            >
+              Next
+            </Button>
           </>
         )}
       </main>
@@ -76,7 +96,6 @@ const AppStyled = styled.div`
   grid-gap: 20px;
   grid-template-rows: 25% 75%;
   height: 100vh;
-  overflow: hidden;
   background: #363537;
 
   header {
@@ -85,8 +104,13 @@ const AppStyled = styled.div`
   }
   main {
     padding: 0 20px;
-    overflow-y: scroll;
   }
+
+  p {
+    margin: 5px 0;
+    text-align:center;
+  }
+
   .title {
     position: absolute;
     top: -40px;
