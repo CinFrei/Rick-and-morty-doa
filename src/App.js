@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import Character from "./Character";
-import getCharacters from "./services/getCharacters";
+import getCharacter from "./services/getCharacter";
 
 function App() {
-  const [characters, setCharacters] = useState([])
+  const [character, setCharacter] = useState([])
 
   useEffect(() => {
-    getCharacters()
-    .then(data => setCharacters(data.results))
-    .catch(error => console.log(error))
+    getCharacter()
+      .then(({ status, name, id, image }) => setCharacter({ status, name, id, image }))
+      .catch(error => console.log(error))
   }, [])
 
+  console.log(character)
   return (
     <div className="App">
-      {characters.map(({id, name, image}) =>
-      <Character key={id} name={name} imgUrl={image} />)}
+      <Character key={character.id} name={character.name} imgUrl={character.image} deadOrAlive={character.status} />
     </div>
   );
 }
