@@ -9,13 +9,20 @@ function App() {
   const [character, setCharacter] = useState('')
   const [userAnswer, setUserAnswer] = useState(false)
 
-  useEffect(() => {
+  useEffect(getRandomCharacter, [])
+
+  function getRandomCharacter() {
     getCharacter()
       .then(({ status, name, id, image }) =>
         setCharacter({ status, name, id, image })
       )
       .catch((error) => console.log(error))
-  }, [])
+  }
+
+  function resetCharacter() {
+    setUserAnswer(false)
+    getRandomCharacter()
+  }
 
   console.log(character)
   return (
@@ -36,7 +43,7 @@ function App() {
       {userAnswer && (
         <>
           <Result name={character.name} status={character.status}></Result>
-          <Button onClick={() => setUserAnswer(false)}>Next</Button>
+          <Button onClick={resetCharacter}>Next</Button>
         </>
       )}
     </div>

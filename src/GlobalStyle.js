@@ -12,7 +12,4 @@ export default createGlobalStyle`
   input, textarea, button {
     font-size: 1em;
   }
-  h1{
-    font-family: 'Creepster', cursive;
-  }
 `
