@@ -6,18 +6,21 @@ export default function Button({
   glowColor,
   bgColor,
   fontColor,
+  className,
 }) {
   const ButtonStyled = styled.button`
-    width: 44%;
-    padding: 6px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 45px;
     font-size: 1em;
     font-weight: 600;
     margin: 10px 0;
-    border-radius: 5px;
     border: 3px solid ${glowColor};
     background-color: ${bgColor};
     box-shadow: 0 0 10px 0 ${glowColor};
     color: ${fontColor};
   `
-  return <ButtonStyled onClick={onClick}>{children}</ButtonStyled>
+  return <ButtonStyled className={className} onClick={onClick}>{children}</ButtonStyled>
 }

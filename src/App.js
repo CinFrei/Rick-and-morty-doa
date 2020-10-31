@@ -15,8 +15,9 @@ function App() {
 
   function getRandomCharacter() {
     getCharacter()
-      .then(({ status, name, id, image }) =>
-        setCharacter({ status, name, id, image })
+      .then(({ status, name, id, image }) =>{
+        status !== 'unknown'  ? setCharacter({ status, name, id, image }) : getRandomCharacter()
+      }
       )
       .catch((error) => console.log(error))
   }
@@ -48,26 +49,6 @@ function App() {
           deadOrAlive={character.status}
           hideName={userAnswer}
         />
-        {!userAnswer && (
-          <>
-            <Button
-              bgColor="#E70000"
-              glowColor="#E70000"
-              fontColor="#fff"
-              onClick={(event) => setUserAnswer(event.target.textContent.trim())}
-            >
-              Dead
-            </Button>
-            <span className="m3">or</span>
-            <Button
-              bgColor="#00ff1e"
-              glowColor="#00ff1e"
-              onClick={(event) => setUserAnswer(event.target.textContent.trim())}
-            >
-              Alive
-            </Button>
-          </>
-        )}
         {userAnswer && (
           <>
             <p>{isCorrectAnswer() ? 'Correct!' : 'Wrong!'}</p>
@@ -76,25 +57,55 @@ function App() {
               status={character.status}
               showName={userAnswer}
             />
+
+          </>
+        )}
+      </main>
+      <footer>
+
+      {!userAnswer && (
+          <>
             <Button
+              bgColor="#E70000"
+              glowColor="#E70000"
+              fontColor="#fff"
+              className='Button__dead'
+              onClick={(event) => setUserAnswer(event.target.textContent.trim())}
+            >
+              Dead
+            </Button>
+            <span className="Text__or">or</span>
+            <Button
+              bgColor="#00ff1e"
+              glowColor="#00ff1e"
+              className='Button__alive'
+              onClick={(event) => setUserAnswer(event.target.textContent.trim())}
+            >
+              Alive
+            </Button>
+          </>
+        ) }
+        
+         {userAnswer && (
+
+      <Button className="Button__next"
               bgColor="#22a1b5"
               glowColor="#00ff1e"
               fontColor="#fff"
               onClick={resetCharacter}
             >
               Next
-            </Button>
-          </>
-        )}
-      </main>
+            </Button>) }
+
+      </footer>
     </AppStyled>
   )
 }
 
 const AppStyled = styled.div`
   display: grid;
-  grid-gap: 2.5%;
-  grid-template-rows: 25% 72.5%;
+  grid-gap: 2%;
+  grid-template-rows: 25% 60% 8%;
   height: 100vh;
   background: #363537;
 
@@ -103,6 +114,11 @@ const AppStyled = styled.div`
   }
   main {
     padding: 0 20px;
+  }
+  footer {
+    display:grid;
+    grid-template-columns: 46% 8% 46%;
+    place-items: center;
   }
 
   p {
@@ -120,8 +136,24 @@ const AppStyled = styled.div`
     top: -60px;
   }
 
-  .m3 {
-    margin: 3%;
+  .Button__next {
+    width: 100%;
+    grid-column: 1/-1;
+    border-right: none;
+    border-left: none;
+  }
+
+  .Button__dead {
+    border-radius: 0px 5px 5px 0px;
+  }
+
+  .Button__alive {
+    border-radius: 5px 0px 0px 5px;
+  }
+
+  .Text__or {
+    width:100%;
+    text-align:center;
   }
 `
 
