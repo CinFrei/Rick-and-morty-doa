@@ -6,18 +6,36 @@ import Result from './Result'
 import Title from './assets/title.png'
 import SubTitle from './assets/subtitle(green).png'
 import styled from 'styled-components/macro'
+import getEpisode from './services/getEpisode'
 
 function App() {
   const [character, setCharacter] = useState('')
   const [userAnswer, setUserAnswer] = useState(false)
+  const [episode, setEpisode] = useState('')
+   
+  useEffect(getRandomCharacter , [])
+  //useEffect(getLastEpisode, [])
 
-  useEffect(getRandomCharacter, [])
+  /*function getInformation() {
+    return {
+      getRandomCharacter(),
+      getEpisodeInformation()
+    }
+  }*/
 
   function getRandomCharacter() {
     getCharacter()
-      .then(({ status, name, id, image }) =>{
-        status !== 'unknown'  ? setCharacter({ status, name, id, image }) : getRandomCharacter()
+      .then(({ status, name, id, image, episode }) =>{
+        const episodes = episode
+        const lastEpisode = episodes.filter((_, i, arr) => i === arr.length-1 )
+        status !== 'unknown'  ? setCharacter({ status, name, id, image, lastEpisode: lastEpisode[0] }) : getRandomCharacter()
       }
+      )
+      .catch((error) => console.log(error))
+
+    getEpisode(character.lastEpisode)
+      .then(({name, id}) =>
+        setEpisode({name, id})
       )
       .catch((error) => console.log(error))
   }
@@ -31,6 +49,7 @@ function App() {
     return userAnswer === character.status ? true : false
   }
 
+  
   return (
     <AppStyled className="App">
       <header>
@@ -52,10 +71,13 @@ function App() {
         {userAnswer && (
           <>
             <p>{isCorrectAnswer() ? 'Correct!' : 'Wrong!'}</p>
+           
             <Result
               name={character.name}
               status={character.status}
               showName={userAnswer}
+              lastEpisodeName={episode.name}
+              lastEpisodeId={episode.id}
             />
 
           </>
