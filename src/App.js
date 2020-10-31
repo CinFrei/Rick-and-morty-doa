@@ -54,7 +54,7 @@ function App() {
               bgColor="#E70000"
               glowColor="#E70000"
               fontColor="#fff"
-              onClick={(event) => setUserAnswer(event.target.textContent)}
+              onClick={(event) => setUserAnswer(event.target.textContent.trim())}
             >
               Dead
             </Button>
@@ -62,7 +62,7 @@ function App() {
             <Button
               bgColor="#00ff1e"
               glowColor="#00ff1e"
-              onClick={(event) => setUserAnswer(event.target.textContent)}
+              onClick={(event) => setUserAnswer(event.target.textContent.trim())}
             >
               Alive
             </Button>
@@ -70,7 +70,7 @@ function App() {
         )}
         {userAnswer && (
           <>
-            <p>{isCorrectAnswer ? 'Correct!' : 'Wrong!'}</p>
+            <p>{isCorrectAnswer() ? 'Correct!' : 'Wrong!'}</p>
             <Result
               name={character.name}
               status={character.status}
@@ -93,13 +93,12 @@ function App() {
 
 const AppStyled = styled.div`
   display: grid;
-  grid-gap: 20px;
-  grid-template-rows: 25% 75%;
+  grid-gap: 2.5%;
+  grid-template-rows: 25% 72.5%;
   height: 100vh;
   background: #363537;
 
   header {
-    background: #363537;
     position: relative;
   }
   main {
