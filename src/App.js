@@ -47,6 +47,7 @@ function App() {
           imgUrl={character.image}
           deadOrAlive={character.status}
           hideName={userAnswer}
+          setClass={userAnswer && character.status === 'Dead'}
         />
         {userAnswer && (
           <>
