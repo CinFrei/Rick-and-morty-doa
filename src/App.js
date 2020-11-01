@@ -15,8 +15,8 @@ function App() {
 
   function getRandomCharacter() {
     getCharacter()
-      .then(({ status, name, id, image }) =>
-        setCharacter({ status, name, id, image })
+      .then(({ status, name, id, image, location }) =>
+        setCharacter({ status, name, id, image, location: location.name })
       )
       .catch((error) => console.log(error))
   }
@@ -56,6 +56,7 @@ function App() {
               name={character.name}
               status={character.status}
               showName={userAnswer}
+              location={character.location}
             />
           </>
         )}
