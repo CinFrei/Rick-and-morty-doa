@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export default function Result({ name, status, location }) {
+export default function Result({ name, status, lastEpisodeId, lastEpisodeName }) {
 
     const ResultStyled = styled.div`
     display: flex;
@@ -24,9 +24,9 @@ export default function Result({ name, status, location }) {
 
     return (
     <ResultStyled>
-      <div className="box" >{name + ' is ' + status.toLowerCase() }&rarr;</div>
-      <div className="box" >Last seen in episode</div>
-      <div className="box" >&larr;Location</div>
+      <div className="box" >{name + ' is ' + status.toLowerCase()} &rarr;</div>
+      <div className="box" >Last seen in Episode {lastEpisodeId} - {lastEpisodeName}</div>
+      <div className="box" >&larr; Location</div>
     </ResultStyled>
   )
 }
