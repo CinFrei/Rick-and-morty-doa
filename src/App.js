@@ -1,13 +1,31 @@
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
+
 import Title from './assets/title.png'
 import SubTitle from './assets/subtitle(green).png'
+import ErrorPage from './assets/error.png'
 import styled from 'styled-components/macro'
 import Quiz from './Quiz'
+import Start from './Start'
+
+
+// using CommonJS modules
+/* var Router = require("react-router").Router;
+var Route = require("react-router").Route;
+var Switch = require("react-router").Switch; */
+
 
 function App() {
   
 
   
   return (
+    <Router>
     <AppStyled className="App">
       <header>
         <h1>
@@ -17,9 +35,23 @@ function App() {
           <img className="subtitle" src={SubTitle} alt="Dead or Alive" />
         </h2>
       </header>
-        <Quiz/>
+        <Switch>
+
+           <Route exact path="/">
+            <Start />
+          </Route>
+          
+          <Route path="/quiz">
+            <Quiz />
+          </Route>
+
+          <Route path="*"><img src={ErrorPage} alt="Oh No!" /></Route>
+
+
+        </Switch>
       
     </AppStyled>
+    </Router>
   )
 }
 
