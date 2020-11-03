@@ -35,7 +35,7 @@ function App() {
 
     getEpisode(character.lastEpisode)
       .then(({name, id}) =>
-        setEpisode({name, id})
+        setEpisode({name, id}) //(...character, lastEpisode{name,Id}))
       )
       .catch((error) => console.log(error))
   }
@@ -46,7 +46,7 @@ function App() {
   }
 
   function isCorrectAnswer() {
-    return userAnswer === character.status ? true : false
+    return userAnswer === character.status
   }
 
   
@@ -67,6 +67,7 @@ function App() {
           imgUrl={character.image}
           deadOrAlive={character.status}
           hideName={userAnswer}
+         
         />
         {userAnswer && (
           <>
