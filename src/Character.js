@@ -1,7 +1,11 @@
 import styled from 'styled-components/macro'
 import React from 'react'
 
-export default function Character({ name, imgUrl, hideName, setClass }) {
+
+export default function Character({ name, imgUrl, hideName, setClass}) {
+  
+  
+  
   return (
     <CharacterStyled>
       <img className={setClass && 'Character__dead'} src={imgUrl} alt="" />
@@ -24,3 +28,4 @@ const CharacterStyled = styled.section`
     filter: grayscale(100%) contrast(1.5);
   }
 `
+
