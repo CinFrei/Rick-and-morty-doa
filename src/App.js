@@ -25,10 +25,11 @@ function App() {
 
   function getRandomCharacter() {
     getCharacter()
-      .then(({ status, name, id, image, episode }) =>{
+
+      .then(({ status, name, id, image, episode, location }) =>{
         const episodes = episode
         const lastEpisode = episodes.filter((_, i, arr) => i === arr.length-1 )
-        status !== 'unknown'  ? setCharacter({ status, name, id, image, lastEpisode: lastEpisode[0] }) : getRandomCharacter()
+        status !== 'unknown'  ? setCharacter({ status, name, id, image, lastEpisode: lastEpisode[0],location: location.name }) : getRandomCharacter()
       }
       )
       .catch((error) => console.log(error))
@@ -67,7 +68,7 @@ function App() {
           imgUrl={character.image}
           deadOrAlive={character.status}
           hideName={userAnswer}
-         
+          setClass={userAnswer && character.status === 'Dead'}
         />
         {userAnswer && (
           <>
@@ -77,23 +78,24 @@ function App() {
               name={character.name}
               status={character.status}
               showName={userAnswer}
+              location={character.location}
               lastEpisodeName={episode.name}
               lastEpisodeId={episode.id}
             />
-
           </>
         )}
       </main>
       <footer>
-
-      {!userAnswer && (
+        {!userAnswer && (
           <>
             <Button
               bgColor="#E70000"
               glowColor="#E70000"
               fontColor="#fff"
-              className='Button__dead'
-              onClick={(event) => setUserAnswer(event.target.textContent.trim())}
+              className="Button__dead"
+              onClick={(event) =>
+                setUserAnswer(event.target.textContent.trim())
+              }
             >
               Dead
             </Button>
@@ -101,25 +103,27 @@ function App() {
             <Button
               bgColor="#00ff1e"
               glowColor="#00ff1e"
-              className='Button__alive'
-              onClick={(event) => setUserAnswer(event.target.textContent.trim())}
+              className="Button__alive"
+              onClick={(event) =>
+                setUserAnswer(event.target.textContent.trim())
+              }
             >
               Alive
             </Button>
           </>
-        ) }
-        
-         {userAnswer && (
+        )}
 
-      <Button className="Button__next"
-              bgColor="#22a1b5"
-              glowColor="#00ff1e"
-              fontColor="#fff"
-              onClick={resetCharacter}
-            >
-              Next
-            </Button>) }
-
+        {userAnswer && (
+          <Button
+            className="Button__next"
+            bgColor="#22a1b5"
+            glowColor="#00ff1e"
+            fontColor="#fff"
+            onClick={resetCharacter}
+          >
+            Next
+          </Button>
+        )}
       </footer>
     </AppStyled>
   )
@@ -139,14 +143,14 @@ const AppStyled = styled.div`
     padding: 0 20px;
   }
   footer {
-    display:grid;
+    display: grid;
     grid-template-columns: 46% 8% 46%;
     place-items: center;
   }
 
   p {
     margin: 5px 0;
-    text-align:center;
+    text-align: center;
   }
 
   .title {
@@ -175,8 +179,8 @@ const AppStyled = styled.div`
   }
 
   .Text__or {
-    width:100%;
-    text-align:center;
+    width: 100%;
+    text-align: center;
   }
 `
 
