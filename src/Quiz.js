@@ -8,29 +8,34 @@ import Button from './Button'
 import styled from 'styled-components'
 
 export default function Quiz() {
-    const [character, setCharacter] = useState('')
+  const [character, setCharacter] = useState('')
   const [userAnswer, setUserAnswer] = useState(false)
-  const [episode, setEpisode] = useState('')
+  /* const [episode, setEpisode] = useState('') */
    
-  useEffect(getRandomCharacter , [])
+  useEffect(() => getRandomCharacter(), [])
+  useEffect(() => getLastEpisode(), [userAnswer])
+
+  console.log(character)
 
   function getRandomCharacter() {
-    getCharacter()
+    getCharacter() 
 
       .then(({ status, name, id, image, episode, location }) =>{
         const episodes = episode
         const lastEpisode = episodes.filter((_, i, arr) => i === arr.length-1 )
-        status !== 'unknown'  ? setCharacter({ status, name, id, image, lastEpisode: lastEpisode[0],location: location.name }) : getRandomCharacter()
-      }
-      )
+        setCharacter({ status, name, id, image, lastEpisode: lastEpisode[0],location: location.name })
+      })
       .catch((error) => console.log(error))
+    }
 
-    getEpisode(character.lastEpisode)
-      .then(({name, id}) =>
-        setEpisode({name, id}) //(...character, lastEpisode{name,Id}))
-      )
-      .catch((error) => console.log(error))
-  }
+    function getLastEpisode() { 
+      getEpisode(character.lastEpisode)
+
+        .then(({name, id}) =>  
+          setCharacter({...character,lastEpisodeName: name, lastEpisodeId: id}) //(...character, lastEpisode{name,Id})
+        )
+        .catch((error) => console.log(error))
+        }
 
   function resetCharacter() {
     setUserAnswer(false)
@@ -61,8 +66,8 @@ export default function Quiz() {
             status={character.status}
             showName={userAnswer}
             location={character.location}
-            lastEpisodeName={episode.name}
-            lastEpisodeId={episode.id}
+            lastEpisodeName={character.lastEpisodeName}
+            lastEpisodeId={character.lastEpisodeId}
             />
         </>
         )}
