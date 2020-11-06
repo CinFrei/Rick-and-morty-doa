@@ -5,17 +5,16 @@ import getCharacter from './services/getCharacter'
 import { useEffect, useState } from 'react'
 import Button from './Button'
 
-import styled from 'styled-components'
 
 export default function Quiz() {
   const [character, setCharacter] = useState('')
   const [userAnswer, setUserAnswer] = useState(false)
-  /* const [episode, setEpisode] = useState('') */
-   
-  useEffect(() => getRandomCharacter(), [])
-  useEffect(() => getLastEpisode(), [userAnswer])
+  const [lastEpisode, setLastEpisode] = useState('')
+  
 
-  console.log(character)
+  useEffect(() => getRandomCharacter(),[])
+  useEffect(() => getLastEpisode(), [character])
+   
 
   function getRandomCharacter() {
     getCharacter() 
@@ -26,16 +25,17 @@ export default function Quiz() {
         setCharacter({ status, name, id, image, lastEpisode: lastEpisode[0],location: location.name })
       })
       .catch((error) => console.log(error))
-    }
+  }
 
-    function getLastEpisode() { 
-      getEpisode(character.lastEpisode)
+  function getLastEpisode() { 
+  
+    getEpisode(character.lastEpisode)
 
         .then(({name, id}) =>  
-          setCharacter({...character,lastEpisodeName: name, lastEpisodeId: id}) //(...character, lastEpisode{name,Id})
+          setLastEpisode({name, id}) //(...character, lastEpisode{name,Id})
         )
         .catch((error) => console.log(error))
-        }
+  }
 
   function resetCharacter() {
     setUserAnswer(false)
@@ -45,8 +45,8 @@ export default function Quiz() {
   function isCorrectAnswer() {
     return userAnswer === character.status
   }
-
-    return (
+  
+    return ( 
     <>
         <main>
             <Character
@@ -66,8 +66,8 @@ export default function Quiz() {
             status={character.status}
             showName={userAnswer}
             location={character.location}
-            lastEpisodeName={character.lastEpisodeName}
-            lastEpisodeId={character.lastEpisodeId}
+            lastEpisodeName={lastEpisode.name}
+            lastEpisodeId={lastEpisode.id}
             />
         </>
         )}
