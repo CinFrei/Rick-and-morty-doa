@@ -1,9 +1,9 @@
 export default function getCharacter() {
-  const characterURL = 'https://rickandmortyapi.com/api/character/?page='
+  const characterURL = 'https://rickandmortyapi.com/api/character/'
 
   return fetch(characterURL)
     .then((res) => res.json())
-    .then(({ info }) => characterURL + randomInt(info.pages, 1))
+    .then(({ info }) => characterURL + '?page=' + randomInt(info.pages, 1))
     .then((randomPageUrl) => fetch(randomPageUrl))
     .then((res) => res.json())
     .then(({ results }) => results.filter(({ status }) => status !== 'unknown'))

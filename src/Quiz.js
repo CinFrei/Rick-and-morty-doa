@@ -5,31 +5,36 @@ import getCharacter from './services/getCharacter'
 import { useEffect, useState } from 'react'
 import Button from './Button'
 
-import styled from 'styled-components'
 
 export default function Quiz() {
-    const [character, setCharacter] = useState('')
+  const [character, setCharacter] = useState('')
   const [userAnswer, setUserAnswer] = useState(false)
-  const [episode, setEpisode] = useState('')
+  const [lastEpisode, setLastEpisode] = useState('')
+  
+
+  useEffect(() => getRandomCharacter(),[])
+  useEffect(() => getLastEpisode(), [character])
    
-  useEffect(getRandomCharacter , [])
 
   function getRandomCharacter() {
-    getCharacter()
+    getCharacter() 
 
       .then(({ status, name, id, image, episode, location }) =>{
         const episodes = episode
         const lastEpisode = episodes.filter((_, i, arr) => i === arr.length-1 )
-        status !== 'unknown'  ? setCharacter({ status, name, id, image, lastEpisode: lastEpisode[0],location: location.name }) : getRandomCharacter()
-      }
-      )
+        setCharacter({ status, name, id, image, lastEpisode: lastEpisode[0],location: location.name })
+      })
       .catch((error) => console.log(error))
+  }
 
+  function getLastEpisode() { 
+  
     getEpisode(character.lastEpisode)
-      .then(({name, id}) =>
-        setEpisode({name, id}) //(...character, lastEpisode{name,Id}))
-      )
-      .catch((error) => console.log(error))
+
+        .then(({name, id}) =>  
+          setLastEpisode({name, id}) //(...character, lastEpisode{name,Id})
+        )
+        .catch((error) => console.log(error))
   }
 
   function resetCharacter() {
@@ -40,8 +45,8 @@ export default function Quiz() {
   function isCorrectAnswer() {
     return userAnswer === character.status
   }
-
-    return (
+  
+    return ( 
     <>
         <main>
             <Character
@@ -61,8 +66,8 @@ export default function Quiz() {
             status={character.status}
             showName={userAnswer}
             location={character.location}
-            lastEpisodeName={episode.name}
-            lastEpisodeId={episode.id}
+            lastEpisodeName={lastEpisode.name}
+            lastEpisodeId={lastEpisode.id}
             />
         </>
         )}

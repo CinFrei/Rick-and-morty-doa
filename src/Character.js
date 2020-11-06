@@ -8,7 +8,7 @@ export default function Character({ name, imgUrl, hideName, setClass}) {
   
   return (
     <CharacterStyled>
-      <img className={setClass && 'Character__dead'} src={imgUrl} alt="" />
+      <img className={setClass ? 'Character__dead' : ''} src={imgUrl} alt="" />
       {!hideName && <h3>{name}</h3>}
     </CharacterStyled>
   )
